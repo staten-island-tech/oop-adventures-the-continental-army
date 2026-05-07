@@ -1,10 +1,14 @@
 class Hunter:
-    def __init__(self,name,health = 100, stamina = 100):
+    def __init__(self, name,health = 100, stamina = 100):
         self.name = name
         self.health = health
         self.stamina = stamina
 
-    
+    def Fluggelcat(self,name):
+        name = "Fluggel cat"
+        print(input)
+        
+
     def attack(self):
         self.stamina -= 10
         self.health += 3
@@ -13,12 +17,13 @@ class Hunter:
         self.stamina -= 15
         self.health -= 3   
 
-class Guild():
+class Guild:
+    def __init__(self, money = 1000000):
+        self.money = money
     
-
     def quest():
-        quests = print(input("There are three portals available, which would you like, the first one, the second one, or the third one?"))
-        quest1 = print(input("For this task you must venture north and slay the "))
+        quest_s = print(input("There are three portals available, which would you like, the first one, the second one, or the third one?"))
+        quest1 = print(input("For this task you must venture north and slay the Fluggelcat"))
     
     loot = "loot"
 
