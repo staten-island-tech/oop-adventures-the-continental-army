@@ -1,13 +1,8 @@
 class Hunter:
-    def __init__(self, name,health = 100, stamina = 100):
+    def __init__(self, name,health = 100, stamina = 100, living = True):
         self.name = name
         self.health = health
         self.stamina = stamina
-
-    def Fluggelcat(self,name):
-        self.name = "Fluggel cat"
-        print(name)
-        
 
     def attack(self):
         self.stamina -= 10
@@ -15,7 +10,12 @@ class Hunter:
     
     def defend(self):
         self.stamina -= 15
-        self.health -= 3   
+        self.health -= 3
+    
+    def dead(self):
+        health = 0
+        stamina = 0
+        living = False
 
 class Guild:
     def __init__(self, money = 1000000):
@@ -39,7 +39,4 @@ class Guild:
 
 
 
-
-
-
-Hunter.Fluggelcat
+Hunter.attack
