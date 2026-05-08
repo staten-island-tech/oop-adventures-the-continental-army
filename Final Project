@@ -5,8 +5,8 @@ class Hunter:
         self.stamina = stamina
 
     def Fluggelcat(self,name):
-        name = "Fluggel cat"
-        print(input)
+        self.name = "Fluggel cat"
+        print(name)
         
 
     def attack(self):
@@ -22,12 +22,24 @@ class Guild:
         self.money = money
     
     def quest():
-        quest_s = print(input("There are three portals available, which would you like, the first one, the second one, or the third one?"))
-        quest1 = print(input("For this task you must venture north and slay the Fluggelcat"))
+        quests = print(input("There are three portals available, which would you like, the first one, the second one, or the third one?"))
+        quest1 = print(input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?"))
+        quest2 = print(input("2.) For this task you will have to travel south and save the penguini from the portal. Will you accept the quest or no?"))
+        quest3 = print(input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?"))
     
-    loot = "loot"
+    def payment():
+        quest1 += 100
+        quest2 += 2000
+        quest3 += 4000
+
+    def deduction():
+        quest1 -= 45
+        quest2 -= 450
+        quest3 -= 750
 
 
 
 
 
+
+Hunter.Fluggelcat
