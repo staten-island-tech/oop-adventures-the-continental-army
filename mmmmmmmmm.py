@@ -1,5 +1,5 @@
 class MC:
-    def __init__ (self, name, inventory = [], hunger = 100, health = 100, stamina = 100, damage = 10, protection = 0, money = 500, living = True): #Hunger Health Stamina Shield/Armor
+    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, damage = 10, protection = 0, money = 500, living = True): #Hunger Health Stamina Shield/Armor
         self.name = name
         self.inventory = inventory
         self.hunger = hunger
@@ -44,13 +44,9 @@ class MC:
         elif self.protection < 0:
             self.protection = 0
 
-
-            
-
-class SHOP(MC):
-    def __init__ (self, name2, money = 10000, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
+class SHOP:
+    def __init__ (self, name2, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
         self.name2 = name2
-        self.money = money
         self.sword = sword
         self.potion = potion
         self.food = food
@@ -65,13 +61,14 @@ class SHOP(MC):
         self.bowandarrow += 1
 
     def buysword (self):
-        print("yay")
-        
+        self.__money -= self.sword
+        self.damage += 920
+
     def buypotion (self):
-        selfmoney += self.potion
+        self.__money -= self.potion
 
     def buyfood (self):
-        self.money += self.food
+        self.__money -= self.food
 
     def buyarmor (self):
         self.__money -= self.armor
@@ -80,49 +77,10 @@ class SHOP(MC):
     def buybowandarrow (self):
         self.__money -= self.bowandarrow
 
-class Hunter(MC):
-    def __init__(self, name,health = 100, stamina = 100, living = True):
-        self.name = name
-        self.health = health
-        self.stamina = stamina
-
-    def attack(self):
-        self.stamina -= 10
-        self.health += 3
-    
-    def defend(self):
-        self.stamina -= 15
-        self.health -= 3
-    
-    def dead(self):
-        health = 0
-        stamina = 0
-        living = False
-
-class Guild(MC):
-    def __init__(self, money = 1000000):
-        self.money = money
-    
-    def quest():
-        quests = print(input("There are three portals available, which would you like, the first one, the second one, or the third one?"))
-        quest1 = print(input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?"))
-        quest2 = print(input("2.) For this task you will have to travel south and save the penguini from the portal. Will you accept the quest or no?"))
-        quest3 = print(input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?"))
-    
-    def payment():
-        quest1 += 100
-        quest2 += 2000
-        quest3 += 4000
-
-    def deduction():
-        quest1 -= 45
-        quest2 -= 450
-        quest3 -= 750
-
 
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
 name = input(f"What is your name?")
-User = MC(name,100,100,100,10,0,500)
+User = MC(name)
 User2 = SHOP(name)
 
 while User.living == True:
@@ -141,5 +99,5 @@ while User.living == True:
         print(f"{User.money} money")
         print(f"{User.protection} armor")
         Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}?")
-
-            
+        if 'buysword' in Userinput2:
+            User2.buysword()
