@@ -14,14 +14,21 @@ class MC:
         self.stamina += 5
 
     def warnings (self):
-        if self.hunger <= 25:
+        if self.hunger == 25:
             print(f"You are starving.")
-        elif self.hunger <= 10:
+            self.health -= 8.5
+        elif self.hunger == 10:
             print(f"Your insides are burning.")
-        if self.health <= 25:
+            self.health -= 19
+        elif self.hunger <= 0:
+            print(f"You died.")
+
+        if self.health == 25:
             print(f"Your starting to bleed out.")
-        elif self.health <= 10:
+        elif self.health == 10:
             print(f"You are dying.")
+        elif self.health <= 0:
+            print(f"You died.")
 
     def maxmin (self):
         if self.hunger > 100:
@@ -66,15 +73,14 @@ class SHOP(MC):
 
     def buysword (self):
         self.money -= self.sword
-        self.__damage += 920
 
     def buypotion (self):
         self.money -= self.potion
-        self.__health += 62
+        self.health += 35
 
     def buyfood (self):
         self.money -= self.food
-        self.__hunger += 98
+        self.hunger += 30
 
     def buyarmor (self):
         self.money -= self.armor
@@ -82,8 +88,7 @@ class SHOP(MC):
 
     def buybowandarrow (self):
         self.money -= self.bowandarrow
-        self.__damage += 5000000
-
+        self.damage += 90
 
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
 name = input(f"What is your name?")
@@ -94,21 +99,23 @@ print("You've found a chest by your foot... (+500 gold)")
 while User.living == True:
     Userinput = input(f"What do you wanna do now {User.name}?")
     Userinput = Userinput.lower()
-    if User.health == 0 or User.hunger == 0 or User2.money <= -100:
+    User2.inflation()
+    User.passiveStat()
+    User.maxmin()
+    User.warnings()
+    if User.health == 0 or User.hunger == 0 or User2.money <= -1000:
         User.living = False
-    if 'shop' in Userinput:
-        User2.inflation()
-        User.passiveStat()
-        User.maxmin()
-        User.warnings()
+    elif 'shop' in Userinput:
         print(f"{User.hunger} hunger")
         print(f"{User.health} health")
         print(f"{User.stamina} stamina")
         print(f"{User2.money} gold")
         print(f"{User.protection} armor")
-        Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}?")
+        print(f"")
+        Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}? Type 'cancel' to rethink your choices...")
         if 'buysword' in Userinput2:
             User2.buysword()
+            User.damage += 20
         elif 'buypotion' in Userinput2:
             User2.buypotion()
         elif 'buyfood' in Userinput2:
