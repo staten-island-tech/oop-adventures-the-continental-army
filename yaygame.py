@@ -87,8 +87,8 @@ class SHOP(MC):
         self.money -= self.bowandarrow
 
 class Hunter(MC):
-    def __init__(self, name,health = 100, stamina = 100, living = True):
-        self.name = name
+    def __init__(self, name3, health = 100, stamina = 100, living = True):
+        self.name3 = name3
         self.health = health
         self.stamina = stamina
 
@@ -108,13 +108,7 @@ class Hunter(MC):
 class Guild(MC):
     def __init__(self, money = 1000000):
         self.money = money
-    
-    def quest():
-        quests = print(input("There are three portals available, which would you like, the first one, the second one, or the third one?"))
-        quest1 = print(input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?"))
-        quest2 = print(input("2.) For this task you will have to travel south and save the penguini from the portal. Will you accept the quest or no?"))
-        quest3 = print(input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?"))
-    
+
     def payment():
         quest1 += 100
         quest2 += 2000
@@ -130,6 +124,7 @@ print("You’ve awoken in an unfamiliar, damp place…as you come to consciousne
 name = input(f"What is your name?")
 User = MC(name)
 User2 = SHOP(name)
+User3 = Hunter(name)
 print("You've found a chest by your foot... (+500 gold)")
 
 while User.living == True:
@@ -149,12 +144,6 @@ while User.living == True:
         print(f"{User.protection} armor")
         print(f"{User.damage} damage")
     elif 'shop' in Userinput:
-        print(f"{User.hunger} hunger")
-        print(f"{User.health} health")
-        print(f"{User.stamina} stamina")
-        print(f"{User2.money} gold")
-        print(f"{User.protection} armor")
-        print(f"{User.damage} damage")
         Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}? Type 'cancel' to rethink your choices...")
         if 'buysword' in Userinput2:
             User2.buysword()
@@ -171,3 +160,17 @@ while User.living == True:
         elif 'buybowandarrow' in Userinput2:
             User2.buybowandarrow()
             User.damage += 90
+    elif 'quests' in Userinput:
+        Userinput2 = input(f"There are three portals available, which would you like, the first one, the second one, or the third one?")
+        if 'portal1' in Userinput2:
+            Userinput3= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
+            if 'yes' in Userinput3:
+                User3.quest1()
+        elif 'portl2' in Userinput2:
+            Userinput3 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
+            if 'yes' in Userinput3:
+                User3.quest2()
+        elif 'portal3' in Userinput:
+            Userinput3 = input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?")
+            if 'yes' in Userinput3:
+                User3.quest3()
