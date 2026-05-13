@@ -10,7 +10,7 @@ class MC:
         self.living = living
 
     def passiveStat (self):
-        self.hunger -= 5
+        self.hunger -= 2
         self.stamina += 5
 
     def warnings (self):
@@ -76,21 +76,18 @@ class SHOP(MC):
 
     def buypotion (self):
         self.money -= self.potion
-        self.health += 35
 
     def buyfood (self):
         self.money -= self.food
-        self.hunger += 30
 
     def buyarmor (self):
         self.money -= self.armor
-        self.protection += 16
 
     def buybowandarrow (self):
         self.money -= self.bowandarrow
-        self.damage += 90
 
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
+print("You’ve awoken in an unfamiliar, damp place…as you come to consciousness, you realize this isn’t your city. The area is lit only by the soft glow of lanterns. The ground beneath you seems to swallow you in—a rush of footsteps run past where you lay, ‘Follow me, this way! The portal is highly unstable!’ This world…is not your own… DUN DUN DUN.")
 name = input(f"What is your name?")
 User = MC(name)
 User2 = SHOP(name)
@@ -105,22 +102,33 @@ while User.living == True:
     User.warnings()
     if User.health == 0 or User.hunger == 0 or User2.money <= -1000:
         User.living = False
+    elif 'stats' in Userinput:
+        print(f"{User.hunger} hunger")
+        print(f"{User.health} health")
+        print(f"{User.stamina} stamina")
+        print(f"{User2.money} gold")
+        print(f"{User.protection} armor")
+        print(f"{User.damage} damage")
     elif 'shop' in Userinput:
         print(f"{User.hunger} hunger")
         print(f"{User.health} health")
         print(f"{User.stamina} stamina")
         print(f"{User2.money} gold")
         print(f"{User.protection} armor")
-        print(f"")
+        print(f"{User.damage} damage")
         Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}? Type 'cancel' to rethink your choices...")
         if 'buysword' in Userinput2:
             User2.buysword()
             User.damage += 20
         elif 'buypotion' in Userinput2:
             User2.buypotion()
+            User.health += 35
         elif 'buyfood' in Userinput2:
             User2.buyfood()
+            User.hunger += 30
         elif 'buyarmor' in Userinput2:
             User2.buyarmor()
+            User.protection += 16
         elif 'buybowandarrow' in Userinput2:
             User2.buybowandarrow()
+            User.damage += 90
