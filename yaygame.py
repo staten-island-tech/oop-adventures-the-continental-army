@@ -53,7 +53,13 @@ class MC:
             self.protection = 20
         elif self.protection < 0:
             self.protection = 0
+    
+    def block(self):
+        self.protection -= 10
+        self.stamina -= 10
 
+    def attack(self):
+        self.stamina -= 10
 class SHOP(MC):
     def __init__ (self, name2, money = 500, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
         self.name2 = name2
@@ -73,28 +79,35 @@ class SHOP(MC):
 
     def buysword (self):
         self.money -= self.sword
+        User.damage += 20
 
     def buypotion (self):
         self.money -= self.potion
+        User.damage += 20
 
     def buyfood (self):
         self.money -= self.food
 
     def buyarmor (self):
         self.money -= self.armor
+        User.protection += 20
 
     def buybowandarrow (self):
         self.money -= self.bowandarrow
+        
 
 class Hunter(MC):
-    def __init__(self, name3, health = 100, stamina = 100, living = True):
+    def __init__(self, name3, health = 250, stamina = 100, living = True):
         self.name3 = name3
         self.health = health
         self.stamina = stamina
 
     def attack(self):
         self.stamina -= 10
-        self.health += 3
+
+    
+    def attacked(self):
+        self.health -= 10
     
     def defend(self):
         self.stamina -= 15
@@ -104,6 +117,7 @@ class Hunter(MC):
         health = 0
         stamina = 0
         living = False
+
 
 class Guild(MC):
     def __init__(self, money = 1000000):
@@ -118,13 +132,20 @@ class Guild(MC):
         quest1 -= 45
         quest2 -= 450
         quest3 -= 750
+    
+    def quest1(self):
+        print("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you seee a" \
+        "large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Time to defeat him." \
+        "Starting battle in 3 2 1...")
+    
 
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
 print("You’ve awoken in an unfamiliar, damp place…as you come to consciousness, you realize this isn’t your city. The area is lit only by the soft glow of lanterns. The ground beneath you seems to swallow you in—a rush of footsteps run past where you lay, ‘Follow me, this way! The portal is highly unstable!’ This world…is not your own… DUN DUN DUN.")
 name = input(f"What is your name?")
 User = MC(name)
 User2 = SHOP(name)
-User3 = Hunter(name)
+User3 = Guild(name)
+User4 = Hunter(name)
 print("You've found a chest by your foot... (+500 gold)")
 
 while User.living == True:
@@ -166,6 +187,14 @@ while User.living == True:
             Userinput3= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
             if 'yes' in Userinput3:
                 User3.quest1()
+                User4.attack()
+                fight1 = input("the fluggelcat is attacking. do you fight, block, or run?")
+                if "block" in fight1:
+                    User.block()
+                elif "fight" in fight1:
+                    User.attack
+                    User4.attacked
+                    print(f"{User4.health}")
         elif 'portl2' in Userinput2:
             Userinput3 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
             if 'yes' in Userinput3:
