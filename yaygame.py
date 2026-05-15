@@ -57,9 +57,11 @@ class MC:
     def block(self):
         self.protection -= 10
         self.stamina -= 10
+        self.health += 10
 
     def attack(self):
         self.stamina -= 10
+
 class SHOP(MC):
     def __init__ (self, name2, money = 500, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
         self.name2 = name2
@@ -94,6 +96,7 @@ class SHOP(MC):
 
     def buybowandarrow (self):
         self.money -= self.bowandarrow
+        User.damage += 20
         
 
 class Hunter(MC):
@@ -104,35 +107,31 @@ class Hunter(MC):
 
     def attack(self):
         self.stamina -= 10
+        User.health -= 10
 
-    
     def attacked(self):
-        self.health -= 10
+        self.health -= User.damage
     
     def defend(self):
         self.stamina -= 15
         self.health -= 3
     
-    def dead(self):
-        health = 0
-        stamina = 0
-        living = False
-
-
 class Guild(MC):
     def __init__(self, money = 1000000):
         self.money = money
 
-    def payment():
-        quest1 += 100
-        quest2 += 2000
-        quest3 += 4000
-
-    def deduction():
-        quest1 -= 45
-        quest2 -= 450
-        quest3 -= 750
+    def payment1():
+        User2.money += 1000
     
+    def payment2():
+        User2.money += 2000
+    
+    def payment3():
+        User2.money += 4000
+    
+    def deduction():
+        User2.money -= 400
+
     def quest1(self):
         print("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you seee a" \
         "large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Time to defeat him." \
@@ -168,33 +167,40 @@ while User.living == True:
         Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}? Type 'cancel' to rethink your choices...")
         if 'buysword' in Userinput2:
             User2.buysword()
-            User.damage += 20
         elif 'buypotion' in Userinput2:
             User2.buypotion()
-            User.health += 35
         elif 'buyfood' in Userinput2:
             User2.buyfood()
-            User.hunger += 30
         elif 'buyarmor' in Userinput2:
             User2.buyarmor()
-            User.protection += 16
         elif 'buybowandarrow' in Userinput2:
             User2.buybowandarrow()
-            User.damage += 90
     elif 'quests' in Userinput:
         Userinput2 = input(f"There are three portals available, which would you like, the first one, the second one, or the third one?")
         if 'portal1' in Userinput2:
             Userinput3= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
             if 'yes' in Userinput3:
                 User3.quest1()
+            while 'yes' in Userinput3:
+                if User4.health == 0:
+                    User4.health = 0
                 User4.attack()
                 fight1 = input("the fluggelcat is attacking. do you fight, block, or run?")
-                if "block" in fight1:
+                if "run" in fight1:
+                    print("you are a coward go back to the guild to pay your penalty")
+                    break
+                elif "block" in fight1:
                     User.block()
                 elif "fight" in fight1:
-                    User.attack
-                    User4.attacked
-                    print(f"{User4.health}")
+                    User.attack()
+                    User4.attacked()
+                print(f"The fluggelcat is now at {User4.health} health")
+                if User4.health <= 0:
+                    print("congrats he is dead go back to the guild to claim your reward")
+                    User3.payment1
+                    break
+
+                
         elif 'portl2' in Userinput2:
             Userinput3 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
             if 'yes' in Userinput3:
