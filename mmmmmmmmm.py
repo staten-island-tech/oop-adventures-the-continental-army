@@ -131,4 +131,30 @@ while User.living == True:
             User.protection += 16
         elif 'buybowandarrow' in Userinput2:
             User2.buybowandarrow()
+<<<<<<< Updated upstream:mmmmmmmmm.py
             User.damage += 90
+=======
+            User.damage += 90
+    elif 'quests' in Userinput:
+        Userinput2 = input(f"There are three portals available, which would you like, the first one, the second one, or the third one?")
+        if 'portal1' in Userinput2:
+            Userinput3= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
+            if 'yes' in Userinput3:
+                User3.quest1()
+                User4.attack()
+                fight1 = input("the fluggelcat is attacking. do you fight, block, or run?")
+                if "block" in fight1:
+                    User.block()
+                elif "fight" in fight1:
+                    User.attack()
+                    User4.attacked()
+                    print(f"The enemy has {User4.health}")
+        elif 'portl2' in Userinput2:
+            Userinput3 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
+            if 'yes' in Userinput3:
+                User3.quest2()
+        elif 'portal3' in Userinput:
+            Userinput3 = input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?")
+            if 'yes' in Userinput3:
+                User3.quest3()
+>>>>>>> Stashed changes:yaygame.py
