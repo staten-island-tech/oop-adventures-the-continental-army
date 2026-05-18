@@ -1,7 +1,7 @@
 class MC:
     def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, damage = 10, protection = 0, living = True): #Hunger Health Stamina Shield/Armor
         self.name = name
-        self.inventory = inventory
+        self.inventory = []
         self.hunger = hunger
         self.health = health
         self.stamina = stamina
@@ -61,6 +61,10 @@ class MC:
 
     def attack(self):
         self.stamina -= 10
+    
+    def eat(self):
+        self.health += 10
+        self.hunger += 40
 
 class SHOP(MC):
     def __init__ (self, name2, money = 500, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
@@ -89,6 +93,7 @@ class SHOP(MC):
 
     def buyfood (self):
         self.money -= self.food
+        User.inventory.append("food")
 
     def buyarmor (self):
         self.money -= self.armor
@@ -120,22 +125,20 @@ class Guild(MC):
     def __init__(self, money = 1000000):
         self.money = money
 
-    def payment1():
+    def payment1(self):
+        User2.money += 500
+    
+    def payment2(self):
         User2.money += 1000
     
-    def payment2():
-        User2.money += 2000
-    
-    def payment3():
+    def payment3(self):
         User2.money += 4000
     
     def deduction():
         User2.money -= 400
 
     def quest1(self):
-        print("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you seee a" \
-        "large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Time to defeat him." \
-        "Starting battle in 3 2 1...")
+        print("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you see a large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Time to defeat him. Starting battle in 3 2 1...")
     
 
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
@@ -163,6 +166,11 @@ while User.living == True:
         print(f"{User2.money} gold")
         print(f"{User.protection} armor")
         print(f"{User.damage} damage")
+    elif 'eat' in Userinput:
+        if User.inventory == "food":
+            User.eat
+        elif User.inventory != "food":
+            print("Go back to the shop to purchase some food")
     elif 'shop' in Userinput:
         Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}? Type 'cancel' to rethink your choices...")
         if 'buysword' in Userinput2:
@@ -182,8 +190,6 @@ while User.living == True:
             if 'yes' in Userinput3:
                 User3.quest1()
             while 'yes' in Userinput3:
-                if User4.health == 0:
-                    User4.health = 0
                 User4.attack()
                 fight1 = input("the fluggelcat is attacking. do you fight, block, or run?")
                 if "run" in fight1:
@@ -192,20 +198,21 @@ while User.living == True:
                 elif "block" in fight1:
                     User.block()
                 elif "fight" in fight1:
-                    User.attack()
+                    User.attack
                     User4.attacked()
-                print(f"The fluggelcat is now at {User4.health} health")
-                if User4.health <= 0:
+                if User4.health >= 0:
+                        print(f"The fluggelcat is now at {User4.health} health")
+                elif User4.health <= 0:
+                    User4.health = 0
                     print("congrats he is dead go back to the guild to claim your reward")
-                    User3.payment1
+                    User3.payment1()
                     break
-
-                
-        elif 'portl2' in Userinput2:
-            Userinput3 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
-            if 'yes' in Userinput3:
+        elif 'portal2' in Userinput2:
+            Userinput4 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
+            if 'yes' in Userinput4:
                 User3.quest2()
         elif 'portal3' in Userinput:
             Userinput3 = input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?")
             if 'yes' in Userinput3:
                 User3.quest3()
+    
