@@ -1,5 +1,5 @@
 class MC:
-    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, damage = 10, protection = 0, money = 100, living = True): #Hunger Health Stamina Shield/Armor
+    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, damage = 10, protection = 0, money = 250, living = True): #Hunger Health Stamina Shield/Armor
         self.name = name
         self.inventory = inventory
         self.hunger = hunger
@@ -21,15 +21,11 @@ class MC:
         elif self.hunger == 10:
             print(f"Your insides are burning.")
             self.health -= 19
-        elif self.hunger <= 0:
-            print(f"You died.")
 
         if self.health == 25:
             print(f"Your starting to bleed out.")
         elif self.health == 10:
             print(f"You are dying.")
-        elif self.health <= 0:
-            print(f"You died.")
 
     def maxmin (self):
         if self.hunger > 100:
@@ -84,7 +80,7 @@ class SHOP(MC):
 
     def buypotion (self):
         User.money -= self.potion
-        User.health += 35
+        User.health += 50
 
     def buyfood (self):
         User.money -= self.food
@@ -99,30 +95,28 @@ class SHOP(MC):
         User.damage += 90
 
 class Hunter(MC):
-    def __init__(self, name3, health = 250, stamina = 100, living = True):
+    def __init__(self, name3, health, stamina = 100, living = True):
         self.name3 = name3
         self.health = health
         self.stamina = stamina
 
     def attack1(self):
         self.stamina -= 10
+        User.health -= 10
+    
+    def attack2(self):
+        self.stamina -= 10
         User.health -= 20
-    
-    def attacked1(self):
-        self.health -= User.damage/2
-    
-    def dead(self):
-        self.health = 0
-        self.stamina = 0
-        self.living = False
 
+    def attacked(self):
+        self.health -= User.damage
 
 class Guild(MC):
     def __init__(self, money = 1000000):
         self.money = money
 
     def payment1():
-        User.money += 100
+        User.money += 500
 
     def payment2():
         User.money += 2000
@@ -142,7 +136,7 @@ User = MC(name)
 User2 = SHOP(name)
 User3 = Guild(name)
 User4 = Hunter(name)
-print("You've found a chest by your foot... (+500 gold)")
+print("You've found a chest by your foot... (+250 gold)")
 
 while User.living == True:
     Userinput = input(f"What do you wanna do now {User.name}?")
@@ -151,7 +145,14 @@ while User.living == True:
     User.passiveStat()
     User.maxmin()
     User.warnings()
-    if User.health == 0 or User.hunger == 0 or User.money <= -1000:
+    if User.health == 0:
+        print("You're bad at this...how did you even manage to die?")
+        User.living = False
+    elif User.hunger == 0:
+        print("You died of starvation! AHahhahahagahah.")
+        User.living = False
+    elif User.money <= -500:
+        print("You have fallen into the abyss of no return. You shall now work forever for the evil debt collecter for the rest of your undead days...")
         User.living = False
     elif 'stats' in Userinput:
         print(f"{User.hunger} hunger")
@@ -162,6 +163,7 @@ while User.living == True:
         print(f"{User.damage} damage")
     elif 'shop' in Userinput:
         Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}? Type 'cancel' to rethink your choices...")
+        Userinput2 = Userinput2.lower()
         if 'buysword' in Userinput2:
             User2.buysword()
         elif 'buypotion' in Userinput2:
@@ -174,27 +176,50 @@ while User.living == True:
             User2.buybowandarrow()
     elif 'quests' in Userinput:
         Userinput2 = input(f"There are three portals available, which would you like, the first one, the second one, or the third one?")
+        Userinput2 = Userinput.lower()
         if 'portal1' in Userinput2:
-            Userinput3= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
+            Userinput3 = input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest?")
+            Userinput3 = Userinput3.lower()
             while 'yes' in Userinput3:
                 print("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you see a large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Prepare to defeat him. Commencing the battle in 3...2...1... BEGIN!")
-                User4.attack()
                 fight1 = input("The Fluggelcat is attacking. Do you fight, block, or run?")
+                fight1 = fight1.lower()
                 if "block" in fight1:
                     User.block()
                 elif "fight" in fight1:
                     User.attack()
-                    User4.attacked1()
+                    User4.attacked()
                     User4.attack1()
-                    print(f"The Fluggelcat has {User4.health}")
-                if User4.health <= 0:
+                elif "run" in fight1:
+                    print("You coward...the Fluggelcat chases after you and strikes again!")
+                if User4.health > 0:
+                     print(f"The Fluggelcat has {User4.health}")
+                elif User4.health <= 0:
                     print(f"Congratulations {User.name}! You've defeated the Fluggelcat in a vicious battle. The Guild awards you handsomely!")
                     User3.payment1
                     break
         elif 'portl2' in Userinput2:
-            Userinput3 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
-            if 'yes' in Userinput3:
-                User3.quest2()
+            Userinput3 = input("2.) For this task you will have to travel south and save Penguini from the portal. Will you accept the quest or decline like the cowardly man you are?")
+            Userinput3 = Userinput3.lower()
+            while 'yes' in Userinput3:
+                print("You travel down south to Antarctica. Inside the portal there lays a hidden beast within the icy waters...a smooth black and white figure emerges from the ocean. He spans a whole 26 feet! I wish you luck...traveller. Commencing the battle in 3...2...1... BEGIN!")
+                fight1 = input("Nandu strikes fiercely. Do you fight, block, or run?")
+                fight1 = fight1.lower()
+                if "block" in fight1:
+                    User.block()
+                elif "fight" in fight1:
+                    User.attack()
+                    User4.attacked()
+                    User4.attack2()
+                elif "run" in fight1:
+                    print("You coward...the Fluggelcat chases after you and strikes again!")
+                if User4.health > 0:
+                     print(f"Nandu has {User4.health}")
+                elif User4.health <= 0:
+                    print(f"Congratulations {User.name}! You've defeated Nandu in battle. How does it feel to kill an innocent Orca who is merely trying to survive? The Guild awards you...noble sir.")
+                    User3.payment2
+                    break
+
         elif 'portal3' in Userinput:
             Userinput3 = input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?")
             if 'yes' in Userinput3:
