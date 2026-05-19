@@ -64,7 +64,7 @@ class MC:
     
     def eat(self):
         self.health += 10
-        self.hunger += 40
+        self.hunger += 20
 
 class SHOP(MC):
     def __init__ (self, name2, money = 500, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
@@ -103,8 +103,22 @@ class SHOP(MC):
         self.money -= self.bowandarrow
         User.damage += 20
         
+class Finalboss(MC):
+    def __init__(self,name4, health = 1000, stamina =  500, successful = True):
+        self.name4 = name4
+        self.health = health
+        self.stamina = stamina
+    
+    def attack(self):
+        self.stamina -= 40
+        self.health -= 5
+        User.health -= 15
+    
+    def attacked(self):
+        self.health -= User.damage
+        
 
-class Hunter(MC):
+class Fluggelcat(MC):
     def __init__(self, name3, health = 250, stamina = 100, living = True):
         self.name3 = name3
         self.health = health
@@ -134,20 +148,25 @@ class Guild(MC):
     def payment3(self):
         User2.money += 4000
     
-    def deduction():
+    def deduction(self):
         User2.money -= 400
 
     def quest1(self):
         print("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you see a large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Time to defeat him. Starting battle in 3 2 1...")
     
+    def quest2(self):
+        print("You need to go save penguini from the orca, as you cross the icey waters you feel an ominous")
 
+    def quest3(self):
+        print("You are told to get the golden shell of the turtle but to get to the turtle shell you must fight Mr.Whalen. You enter the portal and you see a cave. You enter it and the ground starts shaking. It's Mr.Whalen! This is it! ")
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
 print("You’ve awoken in an unfamiliar, damp place…as you come to consciousness, you realize this isn’t your city. The area is lit only by the soft glow of lanterns. The ground beneath you seems to swallow you in—a rush of footsteps run past where you lay, ‘Follow me, this way! The portal is highly unstable!’ This world…is not your own… DUN DUN DUN.")
 name = input(f"What is your name?")
 User = MC(name)
 User2 = SHOP(name)
 User3 = Guild(name)
-User4 = Hunter(name)
+User4 = Fluggelcat(name)
+User6 = Finalboss(name)
 print("You've found a chest by your foot... (+500 gold)")
 
 while User.living == True:
@@ -167,9 +186,9 @@ while User.living == True:
         print(f"{User.protection} armor")
         print(f"{User.damage} damage")
     elif 'eat' in Userinput:
-        if User.inventory == "food":
-            User.eat
-        elif User.inventory != "food":
+        if "food" in User.inventory:
+            User.eat()
+        elif "food" not in User.inventory:
             print("Go back to the shop to purchase some food")
     elif 'shop' in Userinput:
         Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}? Type 'cancel' to rethink your choices...")
@@ -192,8 +211,11 @@ while User.living == True:
             while 'yes' in Userinput3:
                 User4.attack()
                 fight1 = input("the fluggelcat is attacking. do you fight, block, or run?")
-                if "run" in fight1:
+                if User.health <= 25:
+                    print(f"{name} is {User.health} you should retreat ")
+                elif "run" in fight1:
                     print("you are a coward go back to the guild to pay your penalty")
+                    User3.deduction()
                     break
                 elif "block" in fight1:
                     User.block()
@@ -211,8 +233,10 @@ while User.living == True:
             Userinput4 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
             if 'yes' in Userinput4:
                 User3.quest2()
-        elif 'portal3' in Userinput:
+        elif 'portal3' in Userinput2:
             Userinput3 = input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?")
             if 'yes' in Userinput3:
                 User3.quest3()
+            while "yes" in Userinput2:
+                User6.attack
     
