@@ -1,13 +1,17 @@
+import random
+
 class MC:
-    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, damage = 10, protection = 0, living = True): #Hunger Health Stamina Shield/Armor
+    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, sword = 0, bowandarrow = 0, damage = 10, protection = 0, living = True): #Hunger Health Stamina Shield/Armor
         self.name = name
         self.inventory = []
         self.hunger = hunger
         self.health = health
         self.stamina = stamina
-        self.damage = damage
+        self.sword = sword
+        self.bowandarrow = bowandarrow
         self.protection = protection
         self.living = living
+        self.damage = sword + bowandarrow
 
     def passiveStat (self):
         self.hunger -= 2
@@ -59,12 +63,22 @@ class MC:
         self.stamina -= 10
         self.health += 10
 
-    def attack(self):
+    def finalattack(self):
+        print("you're losing 25 stamina")
+        self.stamina -= 25
+    
+    def swordattack(self):
         self.stamina -= 10
+    
+    def bowandarrowattack(self):
+        self.stamina -= 12
     
     def eat(self):
         self.health += 10
         self.hunger += 20
+    
+    def failedattack(self):
+        self.stamina -= 15
 
 class SHOP(MC):
     def __init__ (self, name2, money = 500, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
@@ -85,11 +99,14 @@ class SHOP(MC):
 
     def buysword (self):
         self.money -= self.sword
+        User.inventory.append("sword")
+        User.sword += 20
         User.damage += 20
 
     def buypotion (self):
         self.money -= self.potion
-        User.damage += 20
+        User.inventory.append("potion")
+        User.health += 10
 
     def buyfood (self):
         self.money -= self.food
@@ -101,7 +118,9 @@ class SHOP(MC):
 
     def buybowandarrow (self):
         self.money -= self.bowandarrow
+        User.inventory.append("bowandarrow")
         User.damage += 20
+        User.sword += 20
         
 class Finalboss(MC):
     def __init__(self,name4, health = 1000, stamina =  500, successful = True):
@@ -128,8 +147,11 @@ class Fluggelcat(MC):
         self.stamina -= 10
         User.health -= 10
 
-    def attacked(self):
-        self.health -= User.damage
+    def swordattacked(self):
+        self.health -= User.sword
+    
+    def bowandarrowattacked(self):
+        self.health -= 15
     
     def defend(self):
         self.stamina -= 15
@@ -185,6 +207,7 @@ while User.living == True:
         print(f"{User2.money} gold")
         print(f"{User.protection} armor")
         print(f"{User.damage} damage")
+        print(f"{User.inventory}, these are your items")
     elif 'eat' in Userinput:
         if "food" in User.inventory:
             User.eat()
@@ -208,23 +231,39 @@ while User.living == True:
             Userinput3= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
             if 'yes' in Userinput3:
                 User3.quest1()
-            while 'yes' in Userinput3:
                 User4.attack()
                 fight1 = input("the fluggelcat is attacking. do you fight, block, or run?")
                 if User.health <= 25:
                     print(f"{name} is {User.health} you should retreat ")
-                elif "run" in fight1:
-                    print("you are a coward go back to the guild to pay your penalty")
-                    User3.deduction()
-                    break
-                elif "block" in fight1:
-                    User.block()
-                elif "fight" in fight1:
-                    User.attack
-                    User4.attacked()
-                if User4.health >= 0:
-                        print(f"The fluggelcat is now at {User4.health} health")
-                elif User4.health <= 0:
+                if "fight" in fight1:
+                    attack1 = input("what weapon will you use your sword or your bow and arrow?")
+                    if "sword" in attack1:
+                        if "sword" in User.inventory:
+                            p = random.randint(1,20)
+                            if p >= 11:
+                                print("congrats you hit the cat")
+                                User.swordattack()
+                                User4.swordattacked()
+                            if p <= 10:
+                                print("you failed try another strike")
+                                User.failedattack()
+                            print(p)
+                        elif "sword" not in User.inventory:
+                            print("you don't have that weapon use something else")
+                            print(f"{User.inventory}")
+                            attack1 = input("what weapon will you use your sword or your bow and arrow?")
+                            if "bowandarrow" in attack1:
+                                b = random.randint(1,20)
+                                if b >= 10:
+                                    User.bowandarrowattack()
+                                    User4.bowandarrowattacked
+                                if b <= 9:
+                                    User.failedattack()
+                            print(b)
+                print(f"{User4.health}") 
+            
+            
+                if User4.health <= 0:
                     User4.health = 0
                     print("congrats he is dead go back to the guild to claim your reward")
                     User3.payment1()
