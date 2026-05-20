@@ -13,7 +13,7 @@ class MC:
     def passiveStat (self):
         self.hunger -= 2
         self.stamina += 5
-        self.health += 5
+        self.health += 3
 
     def warnings (self):
         if self.hunger == 25:
@@ -69,11 +69,11 @@ class SHOP(MC):
         self.bowandarrow = bowandarrow
 
     def inflation (self):
-        self.sword += 1
-        self.potion += 1
-        self.food += 1
-        self.armor += 1
-        self.bowandarrow += 1
+        self.sword += 5
+        self.potion += 5
+        self.food += 5
+        self.armor += 5
+        self.bowandarrow += 5
 
     def buysword (self):
         User.money -= self.sword
@@ -96,7 +96,7 @@ class SHOP(MC):
         User.damage += 90
 
 class Fluggelcat(MC):
-    def __init__(self, name3, health = 100, stamina = 100):
+    def __init__(self, name3, health = 250, stamina = 100):
         self.name3 = name3
         self.health = health
         self.stamina = stamina
@@ -107,6 +107,10 @@ class Fluggelcat(MC):
 
     def attacked1(self):
         self.health -= User.damage
+
+    def statreset1(self):
+        self.health = 250
+        self.stamina = 100
 
 class Nandu (MC):
     def __init__(self, name4, health = 2190, stamina = 500):
@@ -195,6 +199,7 @@ while User.living == True:
                 print("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you see a large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Prepare to defeat him. Commencing the battle in 3...2...1... BEGIN!")
                 fight1 = input("The Fluggelcat is attacking. Do you fight, block, or run?")
                 fight1 = fight1.lower()
+                User4.statreset1()
                 User.passiveStat()
                 if "block" in fight1:
                     User.block()
@@ -204,13 +209,16 @@ while User.living == True:
                     User.attack()
                     User4.attacked1()
                     User4.attack1()
+                    print("You've got him! Keep it up!")
                 elif "run" in fight1:
                     print("You coward...the Fluggelcat chases after you and strikes again!")
                 if User4.health > 0:
-                     print(f"The Fluggelcat has {User4.health}")
+                     print(f"The Fluggelcat has {User4.health} health.")
                 elif User4.health <= 0:
                     print(f"Congratulations {User.name}! You've defeated the Fluggelcat in a vicious battle. The Guild awards you handsomely!")
                     User3.payment1()
+                    break
+                if User.health <= 0:
                     break
         elif 'portal2' in Userinput2:
             Userinput3 = input("2.) For this task you will have to travel south and save Penguini from the portal. Will you accept the quest or decline like the cowardly man you are?")
@@ -228,13 +236,16 @@ while User.living == True:
                     User.attack()
                     User5.attacked2()
                     User5.attack2()
+                    print("Nice work! But do you truly wish to sacrifice an innocent life for another..?")
                 elif "run" in fight1:
                     print("How disgusting...you would not even try to fight for your own companion.? Nandu continues to come after you.")
                 if User5.health > 0:
-                     print(f"Nandu has {User5.health}")
+                     print(f"Nandu has {User5.health} health.")
                 elif User5.health <= 0:
                     print(f"Congratulations {User.name}! You've defeated Nandu in battle. How does it feel to kill an innocent Orca who is merely trying to survive? The Guild awards you...noble sir.")
                     User3.payment2()
+                    break
+                if User.health <= 0:
                     break
 
         elif 'portal3' in Userinput:
