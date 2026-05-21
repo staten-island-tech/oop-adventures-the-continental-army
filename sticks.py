@@ -125,6 +125,10 @@ class Nandu (MC):
     def attacked2(self):
         self.health -= User.damage
 
+    def statreset2(self):
+        self.health = 2190
+        self.stamina = 500
+
 class Guild(MC):
     def __init__(self, money = 1000000):
         self.money = money
@@ -155,7 +159,7 @@ print("You've found a chest by your foot... (+250 gold)")
 User.money += 250
 
 while User.living == True:
-    Userinput = input(f"What do you wanna do now {User.name}?")
+    Userinput = input(f"What do you wanna do now {User.name}? Shop, stats or quests...make your choice wisely!")
     Userinput = Userinput.lower()
     User2.inflation()
     User.passiveStat()
@@ -191,15 +195,18 @@ while User.living == True:
         elif 'buybowandarrow' in Userinput2:
             User2.buybowandarrow()
     elif 'quests' in Userinput:
-        Userinput2 = input(f"There are three portals available, which would you like, the first one, the second one, or the third one?")
-        if 'portal1' in Userinput2:
+        Userinput2 = input(f"There are three portals available, which would you like Portal One, Portal Two, or Portal Three?")
+        Userinput2 = Userinput2.lower()
+        if 'portalone' in Userinput2:
             Userinput3 = input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest?")
             Userinput3 = Userinput3.lower()
-            while 'yes' in Userinput3:
-                print("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you see a large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Prepare to defeat him. Commencing the battle in 3...2...1... BEGIN!")
+            User4.statreset1()
+            if 'yes' or 'accept' in Userinput3:
+                fight1 = input("You go north and you find the entrance to the portal, without hesitating you fall in. Once you're there you see a large furry rock, you feel it and suddenly it sits up. It's the Fluggelcat. Prepare to defeat him. Are you ready?")
+                fight1 = fight1.lower()
+            while 'yes' or'ready' in fight1:
                 fight1 = input("The Fluggelcat is attacking. Do you fight, block, or run?")
                 fight1 = fight1.lower()
-                User4.statreset1()
                 User.passiveStat()
                 if "block" in fight1:
                     User.block()
@@ -213,19 +220,23 @@ while User.living == True:
                 elif "run" in fight1:
                     print("You coward...the Fluggelcat chases after you and strikes again!")
                 if User4.health > 0:
-                     print(f"The Fluggelcat has {User4.health} health.")
+                    print(f"The Fluggelcat has {User4.health} health.")
+                    print(f"{User.name} has {User.health} health.")
                 elif User4.health <= 0:
                     print(f"Congratulations {User.name}! You've defeated the Fluggelcat in a vicious battle. The Guild awards you handsomely!")
                     User3.payment1()
                     break
                 if User.health <= 0:
                     break
-        elif 'portal2' in Userinput2:
+        elif 'portaltwo' in Userinput2:
             Userinput3 = input("2.) For this task you will have to travel south and save Penguini from the portal. Will you accept the quest or decline like the cowardly man you are?")
             Userinput3 = Userinput3.lower()
             User.passiveStat()
-            while 'yes' in Userinput3:
-                print("You travel down south to Antarctica. Inside the portal there lays a hidden beast within the icy waters...a smooth black and white figure emerges from the ocean. He spans a whole 26 feet! I wish you luck...traveller. Commencing the battle in 3...2...1... BEGIN!")
+            User5.statreset2()
+            if 'yes' or 'accept' in Userinput3:
+                fight1 = input("You travel down south to Antarctica. Inside the portal there lays a hidden beast within the icy waters...a smooth black and white figure emerges from the ocean. He spans a whole 26 feet! I wish you luck...traveller. Commencing the battle in 3...2...1... BEGIN!")
+                fight1 = fight1.lower()
+            while 'yes' or 'ready' in Userinput3:
                 fight1 = input("Nandu strikes fiercely. Do you fight, block, or run?")
                 fight1 = fight1.lower()
                 if "block" in fight1:
@@ -240,7 +251,8 @@ while User.living == True:
                 elif "run" in fight1:
                     print("How disgusting...you would not even try to fight for your own companion.? Nandu continues to come after you.")
                 if User5.health > 0:
-                     print(f"Nandu has {User5.health} health.")
+                    print(f"Nandu has {User5.health} health.")
+                    print(f"{User.name} has {User.health} health.")
                 elif User5.health <= 0:
                     print(f"Congratulations {User.name}! You've defeated Nandu in battle. How does it feel to kill an innocent Orca who is merely trying to survive? The Guild awards you...noble sir.")
                     User3.payment2()
@@ -248,7 +260,7 @@ while User.living == True:
                 if User.health <= 0:
                     break
 
-        elif 'portal3' in Userinput:
+        elif 'portalthree' in Userinput:
             Userinput3 = input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?")
-            if 'yes' in Userinput3:
-                User3.quest3()
+            if 'yes' or 'accept' in Userinput3:
+                break #just here for now
