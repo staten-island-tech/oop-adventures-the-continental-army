@@ -46,6 +46,8 @@ class MC:
         
         if self.damage < 0:
             self.damage = 0
+        elif self.damage > 10000:
+            self.damage = 10000
 
         if self.protection > 20:
             self.protection = 20
@@ -129,10 +131,24 @@ class Nandu (MC):
         self.health = 2190
         self.stamina = 500
 
-class Guild(MC):
-    def __init__(self, money = 1000000):
-        self.money = money
+class Odin (MC):
+    def __init__(self, name5, health = 100000000, stamina = 10000):
+        self.name5 = name5
+        self.health = health
+        self.stamina = stamina
 
+    def attack3(self):
+        self.stamina -= 10
+        User.health -= 40
+
+    def attacked3(self):
+        self.health -= User.damage
+
+    def statreset3(self):
+        self.health = 100000000
+        self.stamina = 10000
+
+class Guild(MC):
     def payment1(self):
         User.money += 500
 
@@ -140,7 +156,7 @@ class Guild(MC):
         User.money += 2000
 
     def payment3(self):
-        User.money += 4000
+        User.money += 10000
 
     def deduction(self):
         quest1 -= 45
@@ -155,6 +171,7 @@ User2 = SHOP(name)
 User3 = Guild(name)
 User4 = Fluggelcat(name)
 User5 = Nandu(name)
+User6 = Odin(name)
 print("You've found a chest by your foot... (+250 gold)")
 User.money += 250
 
@@ -165,14 +182,11 @@ while User.living == True:
     User.passiveStat()
     User.maxmin()
     User.warnings()
-    if User.health == 0:
-        print("You're bad at this...how did you even manage to die?")
-        User.living = False
-    elif User.hunger == 0:
-        print("You died of starvation! AHahhahahagahah.")
+    if User.hunger == 0:
+        print("You died of starvation! AHahhahahagahah!!")
         User.living = False
     elif User.money <= -500:
-        print("You have fallen into the abyss of no return. You shall now work forever for the evil debt collecter for the rest of your undead days...")
+        print("You have fallen into the abyss of no return. You shall now work forever for the evil debt collecter for the rest of your dead days...")
         User.living = False
     elif 'stats' in Userinput:
         print(f"{User.hunger} hunger")
@@ -219,14 +233,16 @@ while User.living == True:
                     print("You've got him! Keep it up!")
                 elif "run" in fight1:
                     print("You coward...the Fluggelcat chases after you and strikes again!")
-                if User4.health > 0:
+                if User4.health > 0 and User.health > 0:
                     print(f"The Fluggelcat has {User4.health} health.")
                     print(f"{User.name} has {User.health} health.")
                 elif User4.health <= 0:
                     print(f"Congratulations {User.name}! You've defeated the Fluggelcat in a vicious battle. The Guild awards you handsomely!")
                     User3.payment1()
                     break
-                if User.health <= 0:
+                elif User.health <= 0:
+                    print(f"PFFT! How did you evben manage to die? HAHAHAH, you're so pathetic.")
+                    User.living = False
                     break
         elif 'portaltwo' in Userinput2:
             Userinput3 = input("2.) For this task you will have to travel south and save Penguini from the portal. Will you accept the quest or decline like the cowardly man you are?")
@@ -234,7 +250,7 @@ while User.living == True:
             User.passiveStat()
             User5.statreset2()
             if 'yes' or 'accept' in Userinput3:
-                fight1 = input("You travel down south to Antarctica. Inside the portal there lays a hidden beast within the icy waters...a smooth black and white figure emerges from the ocean. He spans a whole 26 feet! I wish you luck...traveller. Commencing the battle in 3...2...1... BEGIN!")
+                fight1 = input("You travel down south to Antarctica. Inside the portal there lays a hidden beast within the icy waters...a smooth black and white figure emerges from the ocean. He spans a whole 26 feet! I wish you luck...traveller. Are you ready?")
                 fight1 = fight1.lower()
             while 'yes' or 'ready' in Userinput3:
                 fight1 = input("Nandu strikes fiercely. Do you fight, block, or run?")
@@ -247,20 +263,51 @@ while User.living == True:
                     User.attack()
                     User5.attacked2()
                     User5.attack2()
-                    print("Nice work! But do you truly wish to sacrifice an innocent life for another..?")
+                    print("Nice work! But do you truly wish to sacrifice an innocent life for another?")
                 elif "run" in fight1:
                     print("How disgusting...you would not even try to fight for your own companion.? Nandu continues to come after you.")
-                if User5.health > 0:
+                if User5.health > 0 and User.health > 0:
                     print(f"Nandu has {User5.health} health.")
                     print(f"{User.name} has {User.health} health.")
                 elif User5.health <= 0:
-                    print(f"Congratulations {User.name}! You've defeated Nandu in battle. How does it feel to kill an innocent Orca who is merely trying to survive? The Guild awards you...noble sir.")
+                    print(f"Congratulations {User.name}! You've defeated Nandu in battle. How does it feel to kill an innocent Orca who is merely trying to survive? The Guild awards you...noble sire.")
                     User3.payment2()
                     break
-                if User.health <= 0:
+                elif User.health <= 0:
+                    print(f"PFFT! How did you evben manage to die? HAHAHAH, you're so pathetic.")
+                    User.living = False
                     break
-
-        elif 'portalthree' in Userinput:
-            Userinput3 = input("3.) For this task you will be going north-east to find the shell of the golden turtle. Do you accept the quest or no?")
+        elif 'portalthree' in Userinput2:
+            Userinput3 = input("3.) For this task you will be going north-east to find the shell of the golden turtle. Are you sure you would like to accept this quest?")
             if 'yes' or 'accept' in Userinput3:
-                break #just here for now
+                Userinput3 = Userinput3.lower()
+                User.passiveStat()
+                User6.statreset3()
+            if 'yes' or 'accept' in Userinput3:
+                fight1 = input("After many long days of travel within the expansive forest, you come across the opening of the portal. As you enter, the world becomes dark and grim...bright red eyes stare down at you. This is your final trial to bring glory to the kingdom: Kill the God of Ravens and retreive the golden shell. Are you ready?")
+                fight1 = fight1.lower()
+            while 'yes' or 'ready' in Userinput3:
+                fight1 = input("Odin, God of Ravens, sends a flock of mighty man-eating birds towards you. Do you fight, block, or run?")
+                fight1 = fight1.lower()
+                if "block" in fight1:
+                    User.block()
+                    User6.attack3()
+                    print("The conspiracy rips your flesh apart...bit by bit. Don't you understand traveller..? You will never stop their attempts...it is futile to believe you are able.")
+                elif "fight" in fight1:
+                    User.attack()
+                    User6.attacked3()
+                    User6.attack3()
+                    print(f"You managed to land a hit on him? Good job {User.name}! Although...he always strikes as well. Be careful now.")
+                elif "run" in fight1:
+                    print(f"My dear traveller, you will never outrun them. The conspiracy will always find you. How can you run for an eternity..? {User.name}, you will die knowing you tried.")
+                if User6.health > 0 and User.health > 0:
+                    print(f"Odin has {User6.health} health.")
+                    print(f"{User.name} has {User.health} health.")
+                elif User6.health <= 0:
+                    print(f"Congratulations {User.name}! You...you actually managed to kill him? I'm so proud of you {User.name}. You can finally return home.")
+                    User3.payment3()
+                    break
+                elif User.health <= 0:
+                    print(f"{User.name}...close your eyes now. I've always been so proud of you. Since the beginning, I knew you had the determination to continue. I could see it in your eyes...Rest well, {User.name}. May you be treated well in the afterlife.")
+                    User.living = False
+                    break
