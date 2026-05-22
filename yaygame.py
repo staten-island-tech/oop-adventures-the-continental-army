@@ -1,17 +1,18 @@
 import random
+from weapon import Weapons, sword
+Weapons
+sword
 
 class MC:
-    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, sword = 0, bowandarrow = 0, damage = 10, protection = 0, living = True): #Hunger Health Stamina Shield/Armor
+    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, sword = 0, bowandarrow = 0, protection = 0, living = True): #Hunger Health Stamina Shield/Armor
         self.name = name
         self.inventory = []
         self.hunger = hunger
         self.health = health
         self.stamina = stamina
-        self.sword = sword
-        self.bowandarrow = bowandarrow
         self.protection = protection
         self.living = living
-        self.damage = sword + bowandarrow
+
 
     def passiveStat (self):
         self.hunger -= 2
@@ -67,8 +68,6 @@ class MC:
         print("you're losing 25 stamina")
         self.stamina -= 25
     
-    def swordattack(self):
-        self.stamina -= 10
     
     def bowandarrowattack(self):
         self.stamina -= 12
@@ -147,8 +146,6 @@ class Fluggelcat(MC):
         self.stamina -= 10
         User.health -= 10
 
-    def swordattacked(self):
-        self.health -= User.sword
     
     def bowandarrowattacked(self):
         self.health -= 15
@@ -193,6 +190,10 @@ print("You've found a chest by your foot... (+500 gold)")
 
 while User.living == True:
     Userinput = input(f"What do you wanna do now {User.name}?")
+    print("1.) Show stats")
+    print("2.) Go on a quest | Note: you must have certain weapons in order to be able to go on certain quests")
+    print("3.) Eat")
+    print("4.) Go shopping")
     Userinput = Userinput.lower()
     User2.inflation()
     User.passiveStat()
@@ -200,7 +201,7 @@ while User.living == True:
     User.warnings()
     if User.health == 0 or User.hunger == 0 or User2.money <= -1000:
         User.living = False
-    elif 'stats' in Userinput:
+    if '1' in Userinput:
         print(f"{User.hunger} hunger")
         print(f"{User.health} health")
         print(f"{User.stamina} stamina")
@@ -208,12 +209,12 @@ while User.living == True:
         print(f"{User.protection} armor")
         print(f"{User.damage} damage")
         print(f"{User.inventory}, these are your items")
-    elif 'eat' in Userinput:
+    elif '3' in Userinput:
         if "food" in User.inventory:
             User.eat()
         elif "food" not in User.inventory:
             print("Go back to the shop to purchase some food")
-    elif 'shop' in Userinput:
+    elif '4' in Userinput:
         Userinput2 = input(f"Would you like to purchase a sword for {User2.sword}, a potion for {User2.potion}, food for {User2.food}, armor for {User2.armor}, or a bow & arrow for {User2.bowandarrow}? Type 'cancel' to rethink your choices...")
         if 'buysword' in Userinput2:
             User2.buysword()
@@ -225,7 +226,7 @@ while User.living == True:
             User2.buyarmor()
         elif 'buybowandarrow' in Userinput2:
             User2.buybowandarrow()
-    elif 'quests' in Userinput:
+    elif '2' in Userinput:
         Userinput2 = input(f"There are three portals available, which would you like, the first one, the second one, or the third one?")
         if 'portal1' in Userinput2:
             Userinput3= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
