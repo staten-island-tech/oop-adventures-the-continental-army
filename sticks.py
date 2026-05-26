@@ -164,8 +164,8 @@ class Guild(MC):
         quest3 -= 750
 
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
-print("You’ve awoken in an unfamiliar, damp place…as you come to consciousness, you realize this isn’t your city. The area is lit only by the soft glow of lanterns. The ground beneath you seems to swallow you in—a rush of footsteps run past where you lay, ‘Follow me, this way! The portal is highly unstable!’ This world…is not your own… DUN DUN DUN.")
-name = input(f"What is your name?")
+print("You’ve awoken in an unfamiliar, damp place…as you come to consciousness, you realize this isn’t your world. The area is lit only by the soft glow of lanterns. The ground beneath you seems to swallow you in. A rush of footsteps run past where you lay, ‘Follow me, this way! The portal is highly unstable!’ This world…is not your own… DUN DUN DUN.")
+name = input("Hello traveller! What is your name?")
 User = MC(name)
 User2 = SHOP(name)
 User3 = Guild(name)
