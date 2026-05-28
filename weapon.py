@@ -1,16 +1,11 @@
-class Weapons:
-   def __init__(self, sword, bowandarrow, potion, axe):
-        self.sword = sword
-        self.bowandarrow = bowandarrow
-        self.potion = potion
-        self.axe = axe
+from yaygame import MC
     
-class sword(Weapons):
-    def __init__(self,level, damage):
-        self.level = level
+class sword:
+    def __init__(self, damage = 65):
         self.damage = damage
     
     def swordattack(self):
-        self.stamina -= 10
-       
-        
+        MC.stamina -= 10
+        self.health -= self.damage
+
+
