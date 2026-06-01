@@ -184,9 +184,6 @@ while User.living == True:
     if User.hunger == 0:
         print("You died of starvation! AHahhahahagahah!!")
         User.living = False
-    elif User.money <= 0:
-        print("You have fallen into the abyss of no return. You shall now work forever for the evil debt collecter for the rest of your dead days...")
-        User.living = False
     elif 'kms' in Userinput:
         print(f"{User.name}? Hello? Are you still there? There's so much left to explore. Don't leave so soon, dear traveller...you are always welcome back.")
         User.living = False
@@ -213,6 +210,9 @@ while User.living == True:
             Shop.buyarmor()
         elif 'buybowandarrow' in Userinput:
             Shop.buybowandarrow()
+        if User.money <= 0:
+            print("You have fallen into the abyss of no return. You shall now work forever for the evil debt collecter for the rest of your dead days...")
+            User.living = False
     elif 'quests' in Userinput:
         Userinput = input(f"There are three portals available, which would you like Portal One, Portal Two, or Portal Three? (ex: 'portalone')")
         Userinput = Userinput.lower()
@@ -225,6 +225,8 @@ while User.living == True:
                 fight1 = fight1.lower()
                 while 'ready' in fight1:
                     fight = input("The Fluggelcat is attacking. Do you fight, block, or run?")
+                    User.maxmin()
+                    User.warnings()
                     fight = fight.lower()
                     User.passiveStat()
                     if "block" in fight:
@@ -250,7 +252,7 @@ while User.living == True:
                         User.living = False
                         break
         elif 'portaltwo' in Userinput:
-            Userinput = input("2.) For this task you will have to travel south and save Penguini from the portal. Will you accept the quest or decline like the cowardly man you are? Tpe 'accept'.")
+            Userinput = input("2.) For this task you will have to travel south and save Penguini from the portal. Will you accept the quest or decline like the cowardly man you are? Type 'accept'.")
             Userinput = Userinput.lower()
             User.passiveStat()
             Nandu.statreset()
@@ -259,6 +261,8 @@ while User.living == True:
                 fight1 = fight1.lower()
                 while 'ready' in fight1:
                     fight = input("Nandu strikes fiercely. Do you fight, block, or run?")
+                    User.maxmin()
+                    User.warnings()
                     fight = fight.lower()
                     if "block" in fight:
                         User.block()
@@ -292,6 +296,8 @@ while User.living == True:
                 fight1 = fight1.lower()
                 while 'ready' in fight1:
                     fight = input("Odin, God of Ravens, sends a flock of mighty man-eating birds towards you. Do you fight, block, or run?")
+                    User.maxmin()
+                    User.warnings()
                     fight = fight.lower()
                     if "block" in fight:
                         User.block()
@@ -304,6 +310,11 @@ while User.living == True:
                         print(f"You managed to land a hit on him? Good job {User.name}! Although...he always strikes as well. Be careful now.")
                     elif "run" in fight:
                         print(f"My dear traveller, you will never outrun them. The conspiracy will always find you. How can you run for an eternity..? {User.name}, you will die knowing you tried.")
+                    elif "kisshim" in fight:
+                        print(f"What?! {User.name}! Why would you try and kiss the God of Ravens? Have you lost your mind?")
+                        print("You got murdered...extra brutally.")
+                        User.living = False
+                        break
                     if Odin.health > 0 and User.health > 0:
                         print(f"Odin has {Odin.health} health.")
                         print(f"{User.name} has {User.health} health.")
