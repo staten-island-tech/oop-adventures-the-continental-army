@@ -58,6 +58,11 @@ class MC:
     
     def failedattack(self):
         self.stamina -= 15
+    
+    def recover(self):
+        self.stamina += 20
+        self.health += 40
+        self.hunger += 5
 
 class SHOP(MC):
     def __init__ (self, name2, money = 500, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
@@ -83,7 +88,6 @@ class SHOP(MC):
     def buypotion (self):
         self.money -= self.potion
         User.inventory.append("potion")
-        User.health += 10
 
     def buyfood (self):
         self.money -= self.food
@@ -135,15 +139,22 @@ class bowandarrow(MC):
         damage = bowandarrow.damage
         User.stamina -= 10
         self.health -= damage
+
+    def bowandarrowbuff(self):
+        bowandarrow.damage = 90
+        damage = bowandarrow.damage
+        User.stamina -= 13
+        self.health -= damage
     
     def chance(self):
         b = random.randint(1,9)
+        if b == 8:
+            bowandarrow.bowandarrowbuff(self)
         if b >= 4:
             print("yay you hit the cat")
-            print("choose another weapon or attack")
-            bowandarrow.bowandarrowattack()
+            bowandarrow.bowandarrowattack(self)
         if b <= 3:
-            print("you failed try another strike ")
+            print("you failed and the creature hit you ")
             User4.attack()
             User.failedattack()
 
@@ -181,6 +192,9 @@ class Fluggelcat(MC):
 class Guild(MC):
     def __init__(self, money = 1000000):
         self.money = money
+    
+    def penalty(self):
+        User2.money -= 1000
 
     def payment1(self):
         User2.money += 500
@@ -203,6 +217,7 @@ class Guild(MC):
     def quest3(self):
         print("You are told to get the golden shell of the turtle but to get to the turtle shell you must fight Mr.Whalen. You enter the portal and you see a cave. You enter it and the ground starts shaking. It's Mr.Whalen! This is it! ")
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
+print("  ")
 name = input(f"What is your name?")
 User = MC(name)
 User2 = SHOP(name)
@@ -210,13 +225,17 @@ User3 = Guild(name)
 User4 = Fluggelcat(name)
 User6 = Finalboss(name)
 User7 = sword(name)
+print("  ")
 print("You've found a chest by your foot... (+500 gold)")
 
 while User.living == True:
+    print("  ")
     print("1.) Show stats")
-    print("2.) Go on a quest | Note: you must have certain weapons in order to be able to go on certain quests")
+    print("2.) Go on a quest")
     print("3.) Eat")
     print("4.) Go shopping")
+    print("5.) Drink potion")
+    print("  ")
     Userinput = input(f"What do you wanna do now {User.name}?")
     Userinput = Userinput.lower()
     User2.inflation()
@@ -226,12 +245,19 @@ while User.living == True:
     if User.health == 0 or User.hunger == 0 or User2.money <= -1000:
         User.living = False
     if '1' in Userinput:
+        print("  ")
         print(f"{User.hunger} hunger")
         print(f"{User.health} health")
         print(f"{User.stamina} stamina")
         print(f"{User2.money} gold")
         print(f"{User.protection} armor")
         print(f"{User.inventory}, these are your items")
+        print("  ")
+    elif "5" in Userinput:
+        if "potion" in User.inventory:
+            User.recover()
+        elif "food" not in User.inventory:
+            print("Go buy a potion at the shop")
     elif '3' in Userinput:
         if "food" in User.inventory:
             User.eat()
@@ -239,11 +265,13 @@ while User.living == True:
         elif "food" not in User.inventory:
             print("Go back to the shop to purchase some food")
     elif '4' in Userinput:
+        print("  ")
         print(f"1.) A sword for {User2.sword}")
         print(f"2.) A bowandarrow for {User2.bowandarrow}")
         print(f"3.) Food for {User2.food}")
         print(f"4.) A potion for {User2.potion}")
         print(f"5.) Armor for {User2.armor}")
+        print("  ")
         Userinput2 = input(f"What would you like to buy?")
         if '1' in Userinput2:
             User2.buysword()
@@ -255,49 +283,70 @@ while User.living == True:
             User2.buyarmor()
         elif '2' in Userinput2:
             User2.buybowandarrow()
+        print("  ")
         print(f"You have {User2.money} gold left")
     elif '2' in Userinput:
         if User.inventory == []:
+            print("  ")
             print("you need to buy some weapons first")
         else:
+            print("  ")
             print("1.) For this task you must venture north and slay the Fluggelcat")
             print("2.)")
             print("3.)")
+            print("  ")
             Userinput3 = input("There are three portals available")
+            print("  ")
             if '1' in Userinput3:
+                print("  ")
                 Userinput4= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
-                if 'yes' in Userinput4:
+                print("  ")
+                if 'yes' or 'accept' in Userinput4:
                     User3.quest1()
+                    print("  ")
                     fight1 = input("the fluggelcat is attacking. do you fight or run?")
+                    print("  ")
                     if User.health <= 25:
                         print(f"{name} is {User.health} you should retreat ")
                     if "fight" in fight1:
                         while User4.health >= 0:
+                            print("  ")
                             attack1 = input("what weapon will you use your sword or your bow and arrow?")
+                            print("  ")
                             if "sword" in attack1:
                                 if "sword" not in User.inventory:
+                                    print("  ")
                                     print("you don't have that weapon use something else")
                                     print(f"{User.inventory}")
+                                    print("  ")
                             if "bowandarrow" in attack1:
                                 if "bowandarrow" not in User.inventory:
+                                    print("  ")
                                     print("you don't have that weapon use something else")
                                     print(f"{User.inventory}")
+                                    print("  ")
                             if "sword" in attack1:
                                 if "sword" in User.inventory:
+                                    print("  ")
                                     sword.chance(User4)
+                                    print("  ")
                             if "bowandarrow" in attack1:
                                 if "bowandarrow" in User.inventory:
-                                    b = random.randint(1,8)
-                                    if b >= 10:
-                                        bowandarrow.bowandarrowattack()
-                                    if b <= 9:
-                                        User.failedattack()
-                            print(f"{User4.health}") 
-                    if User4.health <= 0:
-                        print("congrats he is dead go back to the guild to claim your reward")
-                        User3.payment1()
-                        User4.reset()
-            elif 'portal2' in Userinput2:
+                                    print("  ")
+                                    bowandarrow.chance(User4)
+                                    print("  ")
+                            print("  ")
+                            print(f"The fluggel cat is at {User4.health} health") 
+                            print("  ")
+                        if User4.health <= 0:
+                            print("  ")
+                            print("congrats he is dead, you have been rewarded. you should check your stats")
+                            User3.payment1()
+                            User4.reset(User4)
+                            print("  ")
+                    if "run" in fight1:
+                        User3.penalty()
+            elif '2' in Userinput2:
                 Userinput4 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
                 if 'yes' in Userinput4:
                     User3.quest2()
