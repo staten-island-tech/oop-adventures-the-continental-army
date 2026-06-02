@@ -116,13 +116,14 @@ class sword(MC):
     def chance(self):
         p = random.randint(1,8)
         if p == 8:
-            sword.swordbuff()
+            sword.swordbuff(self)
         if p >= 4:
             print("congrats you hit the cat")
             print("keep going")
             sword.swordattack(self)
         if p <= 3:
             print("you failed try another strike")
+            User4.attack()
             User.failedattack()
 
 class bowandarrow(MC):
@@ -137,13 +138,15 @@ class bowandarrow(MC):
     
     def chance(self):
         b = random.randint(1,9)
-        if b >= 5:
+        if b >= 4:
             print("yay you hit the cat")
             print("choose another weapon or attack")
             bowandarrow.bowandarrowattack()
-        if b <= 4:
+        if b <= 3:
             print("you failed try another strike ")
+            User4.attack()
             User.failedattack()
+
 
 class Finalboss(MC):
     def __init__(self,name4, health = 1000, stamina =  500, successful = True):
@@ -165,15 +168,10 @@ class Fluggelcat(MC):
     def attack(self):
         self.stamina -= 10
         User.health -= 10
-
-    
-    def bowandarrowattacked(self):
-        self.health -= 15
     
     def defend(self):
         self.stamina -= 15
         self.health -= 3
-    
     
     def reset(self, name3, health = 250, stamina = 100, living = True):
         self.name3 = name3
@@ -270,8 +268,7 @@ while User.living == True:
                 Userinput4= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
                 if 'yes' in Userinput4:
                     User3.quest1()
-                    User4.attack()
-                    fight1 = input("the fluggelcat is attacking. do you fight, block, or run?")
+                    fight1 = input("the fluggelcat is attacking. do you fight or run?")
                     if User.health <= 25:
                         print(f"{name} is {User.health} you should retreat ")
                     if "fight" in fight1:
@@ -297,9 +294,9 @@ while User.living == True:
                                         User.failedattack()
                             print(f"{User4.health}") 
                     if User4.health <= 0:
-                        User4.reset
                         print("congrats he is dead go back to the guild to claim your reward")
                         User3.payment1()
+                        User4.reset()
             elif 'portal2' in Userinput2:
                 Userinput4 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
                 if 'yes' in Userinput4:
