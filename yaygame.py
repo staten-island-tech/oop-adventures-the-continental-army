@@ -11,7 +11,7 @@ class MC:
         self.living = living
 
     def passiveStat (self):
-        self.hunger -= 5
+        self.hunger -= 3.5
         self.stamina += 2
 
     def warnings (self):
@@ -98,7 +98,7 @@ class SHOP(MC):
         User.inventory.append("bowandarrow")
 
 class sword(MC):
-    def __init__(self, damage = 65):
+    def __init__(self, damage = 80):
         self.damage = damage
     
     def swordattack(self):
@@ -107,13 +107,43 @@ class sword(MC):
         User.stamina -= 10
         self.health -= damage
 
+    def swordbuff(self):
+        sword.damage = 100
+        damage = sword.damage
+        User.stamina -= 15
+        self.health -= damage
+
+    def chance(self):
+        p = random.randint(1,8)
+        if p == 8:
+            sword.swordbuff()
+        if p >= 4:
+            print("congrats you hit the cat")
+            print("keep going")
+            sword.swordattack(self)
+        if p <= 3:
+            print("you failed try another strike")
+            User.failedattack()
+
 class bowandarrow(MC):
-    def __init__(self, damage = 50):
+    def __init__(self, damage = 65):
         self.damage = damage
 
     def bowandarrowattack(self):
+        bowandarrow.damage = 65
+        damage = bowandarrow.damage
         User.stamina -= 10
-        self.health -= bowandarrow.damage
+        self.health -= damage
+    
+    def chance(self):
+        b = random.randint(1,9)
+        if b >= 5:
+            print("yay you hit the cat")
+            print("choose another weapon or attack")
+            bowandarrow.bowandarrowattack()
+        if b <= 4:
+            print("you failed try another strike ")
+            User.failedattack()
 
 class Finalboss(MC):
     def __init__(self,name4, health = 1000, stamina =  500, successful = True):
@@ -143,6 +173,12 @@ class Fluggelcat(MC):
     def defend(self):
         self.stamina -= 15
         self.health -= 3
+    
+    
+    def reset(self, name3, health = 250, stamina = 100, living = True):
+        self.name3 = name3
+        self.health = health
+        self.stamina = stamina
     
 class Guild(MC):
     def __init__(self, money = 1000000):
@@ -201,6 +237,7 @@ while User.living == True:
     elif '3' in Userinput:
         if "food" in User.inventory:
             User.eat()
+            User.inventory.remove("food")
         elif "food" not in User.inventory:
             print("Go back to the shop to purchase some food")
     elif '4' in Userinput:
@@ -238,42 +275,29 @@ while User.living == True:
                     if User.health <= 25:
                         print(f"{name} is {User.health} you should retreat ")
                     if "fight" in fight1:
-                        attack1 = input("what weapon will you use your sword or your bow and arrow?")
-                        if "sword" in attack1:
-                            if "sword" in User.inventory:
-                                for Sword in fight1:
-                                    p = random.randint(1,20)
-                                    if p >= 11:
-                                        print("congrats you hit the cat")
-                                        print("keep going")
-                                        sword.swordattack(User4)
-                                    if p <= 10:
-                                        print("you failed try another strike")
-                                        User.failedattack()
-                                        print(p)
-                                    print(p)
-                            if "bowandarrow" in User.inventory:
-                                    b = random.randint(1,20)
+                        while User4.health >= 0:
+                            attack1 = input("what weapon will you use your sword or your bow and arrow?")
+                            if "sword" in attack1:
+                                if "sword" not in User.inventory:
+                                    print("you don't have that weapon use something else")
+                                    print(f"{User.inventory}")
+                            if "bowandarrow" in attack1:
+                                if "bowandarrow" not in User.inventory:
+                                    print("you don't have that weapon use something else")
+                                    print(f"{User.inventory}")
+                            if "sword" in attack1:
+                                if "sword" in User.inventory:
+                                    sword.chance(User4)
+                            if "bowandarrow" in attack1:
+                                if "bowandarrow" in User.inventory:
+                                    b = random.randint(1,8)
                                     if b >= 10:
-                                        User.bowandarrowattack()
-                                        User4.bowandarrowattacked
+                                        bowandarrow.bowandarrowattack()
                                     if b <= 9:
                                         User.failedattack()
-                            if "sword" not in User.inventory:
-                                print("you don't have that weapon use something else")
-                                print(f"{User.inventory}")
-                                attack1 = input("what weapon will you use your sword or your bow and arrow?")
-                                if "bowandarrow" in attack1:
-                                    b = random.randint(1,20)
-                                    if b >= 10:
-                                        User.bowandarrowattack()
-                                        User4.bowandarrowattacked
-                                    if b <= 9:
-                                        User.failedattack()                            
-                                print(b)
-                    print(f"{User4.health}") 
+                            print(f"{User4.health}") 
                     if User4.health <= 0:
-                        User4.health = 0
+                        User4.reset
                         print("congrats he is dead go back to the guild to claim your reward")
                         User3.payment1()
             elif 'portal2' in Userinput2:
