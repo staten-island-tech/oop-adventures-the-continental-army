@@ -158,11 +158,6 @@ class GUILD(MC):
     def payment3(self):
         User.money += 10000
 
-    def deduction(self):
-        quest1 -= 45
-        quest2 -= 450
-        quest3 -= 750
-
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
 print("You’ve awoken in an unfamiliar, damp place…as you come to consciousness, you realize this isn’t your world. The area is lit only by the soft glow of lanterns. The ground beneath you seems to swallow you in. A rush of footsteps run past where you lay, ‘Follow me, this way! The portal is highly unstable!’ This world…is not your own… DUN DUN DUN.")
 name = input("Hello traveller! What is your name?")
@@ -188,9 +183,11 @@ while User.living == True:
         User.living = False
     elif 'kms' in Userinput:
         print(f"{User.name}? Hello? Are you still there? There's so much left to explore. Don't leave so soon, dear traveller...you are always welcome back.")
+        print("You died.")
         User.living = False
     elif 'ilynarratorsenpai' in Userinput:
         print(f"{User.name}, what is the meaning of this? I will NEVER reciprocate such...emotion towards you..of all people.")
+        print("You were deleted.")
         User.living = False
     elif 'stats' in Userinput:
         print(f"{User.hunger} hunger")
@@ -325,6 +322,8 @@ while User.living == True:
                         User.living = False
                         break
                     elif Odin.health <= 0:
-                        print(f"Congratulations {User.name}! You...you actually managed to kill him? I'm so proud of you {User.name}. You can finally return home.")
+                        print(f"Congratulations {User.name}! You...you actually managed to kill him? I'm so proud of you {User.name}. You can finally return home..")
+                        print(f"I will forever remmeber your presence here...good luck {User.name}.")
                         Guild.payment3()
+                        User.living = False
                         break
