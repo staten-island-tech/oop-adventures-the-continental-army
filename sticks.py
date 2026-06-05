@@ -172,7 +172,7 @@ Nandu = NANDU(name)
 Odin = ODIN(name)
 print(f"Do keep in mind that this game uses no spacing for decisions! Have fun {User.name}!! Don't die! I wish you well. Bring glory to the king!")
 print("You've found a chest by your foot... (+250 gold)")
-User.money += 250
+User.money += 0
 
 while User.living == True:
     Userinput = input(f"What do you wanna do now {User.name}? Shop, stats or quests...make your choice wisely!")
@@ -186,9 +186,11 @@ while User.living == True:
         User.living = False
     elif 'kms' in Userinput:
         print(f"{User.name}? Hello? Are you still there? There's so much left to explore. Don't leave so soon, dear traveller...you are always welcome back.")
+        print("You died.")
         User.living = False
     elif 'ilynarratorsenpai' in Userinput:
         print(f"{User.name}, what is the meaning of this? I will NEVER reciprocate such...emotion towards you..of all people.")
+        print("You were deleted.")
         User.living = False
     elif 'stats' in Userinput:
         print(f"{User.hunger} hunger")
@@ -323,6 +325,8 @@ while User.living == True:
                         User.living = False
                         break
                     elif Odin.health <= 0:
-                        print(f"Congratulations {User.name}! You...you actually managed to kill him? I'm so proud of you {User.name}. You can finally return home.")
+                        print(f"Congratulations {User.name}! You...you actually managed to kill him? I'm so proud of you {User.name}. You can finally return home..")
+                        print(f"I will forever remmeber your presence here...good luck {User.name}.")
                         Guild.payment3()
+                        User.living = False
                         break
