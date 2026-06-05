@@ -156,11 +156,6 @@ class GUILD(MC):
     def payment3(self):
         User.money += 10000
 
-    def deduction(self):
-        quest1 -= 45
-        quest2 -= 450
-        quest3 -= 750
-
 print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
 print("You’ve awoken in an unfamiliar, damp place…as you come to consciousness, you realize this isn’t your world. The area is lit only by the soft glow of lanterns. The ground beneath you seems to swallow you in. A rush of footsteps run past where you lay, ‘Follow me, this way! The portal is highly unstable!’ This world…is not your own… DUN DUN DUN.")
 name = input("Hello traveller! What is your name?")
@@ -172,7 +167,7 @@ Nandu = NANDU(name)
 Odin = ODIN(name)
 print(f"Do keep in mind that this game uses no spacing for decisions! Have fun {User.name}!! Don't die! I wish you well. Bring glory to the king!")
 print("You've found a chest by your foot... (+250 gold)")
-User.money += 0
+User.money += 250
 
 while User.living == True:
     Userinput = input(f"What do you wanna do now {User.name}? Shop, stats or quests...make your choice wisely!")
