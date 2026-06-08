@@ -233,6 +233,8 @@ while User.living == True:
                         Fluggelcat.attacked()
                         Fluggelcat.attack()
                         print("You've got him! Keep it up!")
+                    elif "run" in fight:
+                        print("You coward...the Fluggelcat chases after you and strikes again!")
                     if Fluggelcat.health > 0 and User.health > 0:
                         User.maxmin()
                         print(f"The Fluggelcat has {Fluggelcat.health} health.")
@@ -246,8 +248,6 @@ while User.living == True:
                         print(f"Congratulations {User.name}! You've defeated the Fluggelcat in a vicious battle. The Guild awards you handsomely!")
                         Guild.payment1()
                         break
-                    elif "run" in fight:
-                        print("You coward...the Fluggelcat chases after you and strikes again!")
         elif 'portaltwo' in Userinput:
             Userinput = input("2.) For this task you will have to travel south and save Penguini from the portal. Will you accept the quest or decline like the cowardly man you are? Type 'accept'.")
             Userinput = Userinput.lower()
