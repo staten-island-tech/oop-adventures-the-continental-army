@@ -23,7 +23,12 @@ class MC:
             self.health -= 19
         elif self.hunger <= 0:
             print(f"You died.")
-
+        if self.stamina == 25:
+            print("you are weak")
+        elif self.stamina == 10:
+            print("your going to die")
+        elif self.health <= 0:
+            print("you're dead")
         if self.health == 25:
             print(f"Your starting to bleed out.")
         elif self.health == 10:
@@ -112,7 +117,7 @@ class sword(MC):
         self.health -= damage
 
     def swordbuff(self):
-        sword.damage = 100
+        sword.damage += 50
         damage = sword.damage
         User.stamina -= 15
         self.health -= damage
@@ -120,6 +125,7 @@ class sword(MC):
     def chance(self):
         p = random.randint(1,8)
         if p == 8:
+            print("congrats your sword upgraded")
             sword.swordbuff(self)
         if p >= 4:
             print("congrats you hit the cat")
@@ -149,6 +155,7 @@ class bowandarrow(MC):
     def chance(self):
         b = random.randint(1,9)
         if b == 8:
+            print("congrats your bowandarrow upgraded")
             bowandarrow.bowandarrowbuff(self)
         if b >= 4:
             print("yay you hit the cat")
@@ -216,7 +223,9 @@ class Guild(MC):
 
     def quest3(self):
         print("You are told to get the golden shell of the turtle but to get to the turtle shell you must fight Mr.Whalen. You enter the portal and you see a cave. You enter it and the ground starts shaking. It's Mr.Whalen! This is it! ")
-print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck. You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
+
+print("You’re walking across the street trying to figure out how to pay your debts to the loan sharks when you walk into the street and get hit by a truck.")
+print("You wake up to see you’re trapped in a black space with nobody there, then a message on a screen pops up and it says “Teleporting in 3..2..1”. ")
 print("  ")
 name = input(f"What is your name?")
 User = MC(name)
@@ -242,7 +251,9 @@ while User.living == True:
     User.passiveStat()
     User.maxmin()
     User.warnings()
+
     if User.health == 0 or User.hunger == 0 or User2.money <= -1000:
+        print("you should take care of yourself better. you are free to try again")
         User.living = False
     if '1' in Userinput:
         print("  ")
@@ -256,6 +267,7 @@ while User.living == True:
     elif "5" in Userinput:
         if "potion" in User.inventory:
             User.recover()
+            User.inventory.remove("potion")
         elif "food" not in User.inventory:
             print("Go buy a potion at the shop")
     elif '3' in Userinput:
@@ -286,10 +298,7 @@ while User.living == True:
         print("  ")
         print(f"You have {User2.money} gold left")
     elif '2' in Userinput:
-        if User.inventory == []:
-            print("  ")
-            print("you need to buy some weapons first")
-        else:
+        if "sword" in User.inventory or "bowandarrow" in User.inventory:
             print("  ")
             print("1.) For this task you must venture north and slay the Fluggelcat")
             print("2.)")
@@ -310,8 +319,9 @@ while User.living == True:
                         print(f"{name} is {User.health} you should retreat ")
                     if "fight" in fight1:
                         while User4.health >= 0:
-                            print("  ")
-                            attack1 = input("what weapon will you use your sword or your bow and arrow?")
+                            print(f"you are at {User.health}")
+                            print(" ")
+                            attack1 = input("what weapon will you use your sword or your bowandarrow?")
                             print("  ")
                             if "sword" in attack1:
                                 if "sword" not in User.inventory:
@@ -346,6 +356,7 @@ while User.living == True:
                             print("  ")
                     if "run" in fight1:
                         User3.penalty()
+        
             elif '2' in Userinput2:
                 Userinput4 = input("2.) For this task you will have to travel south and save the Penguini from the portal. Will you accept the quest or no?")
                 if 'yes' in Userinput4:
@@ -356,4 +367,7 @@ while User.living == True:
                     User3.quest3()
                 while "yes" in Userinput2:
                     User6.attack
+        elif "sword" not in User.inventory or "bowandarrow" not in User.inventory:
+            print("  ")
+            print("you need to buy some weapons first")
     
