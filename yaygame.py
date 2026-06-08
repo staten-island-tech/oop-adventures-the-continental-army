@@ -299,7 +299,7 @@ while User.living == True:
             print("  ")
             if '1' in Userinput3:
                 print("  ")
-                Userinput4= input("1.) For this task you must venture north and slay the Fluggelcat. Do you accept the quest or no?")
+                Userinput4= input(f"1.) For this task you must venture north and slay the Fluggelcat. {User.name} Do you accept the quest or no?")
                 print("  ")
                 if 'yes' or 'accept' in Userinput4:
                     User3.quest1()
