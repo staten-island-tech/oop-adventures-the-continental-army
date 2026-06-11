@@ -1,12 +1,10 @@
 class MC:
-    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, damage = 10, protection = 0, money = 0, living = True): #Hunger Health Stamina Shield/Armor
+    def __init__ (self, name, hunger = 100, health = 100, stamina = 100, damage = 10, money = 0, living = True): #Hunger Health Stamina Shield/Armor
         self.name = name
-        self.inventory = inventory
         self.hunger = hunger
         self.health = health
         self.stamina = stamina
         self.damage = damage
-        self.protection = protection
         self.money = money
         self.living = living
 
@@ -46,11 +44,6 @@ class MC:
         
         if self.damage < 0:
             self.damage = 0
-
-        if self.protection > 20:
-            self.protection = 20
-        elif self.protection < 0:
-            self.protection = 0
     
     def block(self):
         self.protection -= 5
