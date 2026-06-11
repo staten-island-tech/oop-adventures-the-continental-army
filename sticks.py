@@ -1,12 +1,10 @@
 class MC:
-    def __init__ (self, name, inventory = None, hunger = 100, health = 100, stamina = 100, damage = 10, protection = 0, money = 0, living = True): #Hunger Health Stamina Shield/Armor
+    def __init__ (self, name, hunger = 100, health = 100, stamina = 100, damage = 10, money = 0, living = True): #Hunger Health Stamina Shield/Armor
         self.name = name
-        self.inventory = inventory
         self.hunger = hunger
         self.health = health
         self.stamina = stamina
         self.damage = damage
-        self.protection = protection
         self.money = money
         self.living = living
 
@@ -46,11 +44,6 @@ class MC:
         
         if self.damage < 0:
             self.damage = 0
-
-        if self.protection > 20:
-            self.protection = 20
-        elif self.protection < 0:
-            self.protection = 0
     
     def block(self):
         self.protection -= 5
@@ -60,19 +53,17 @@ class MC:
         self.stamina -= 10
 
 class SHOP(MC):
-    def __init__ (self, name2, sword = 75, potion = 40, food = 15, armor = 75, bowandarrow = 50):
+    def __init__ (self, name2, sword = 75, potion = 40, food = 15, bowandarrow = 50):
         self.name2 = name2
         self.sword = sword
         self.potion = potion
         self.food = food
-        self.armor = armor
         self.bowandarrow = bowandarrow
 
     def inflation (self):
         self.sword += 5
         self.potion += 5
         self.food += 5
-        self.armor += 5
         self.bowandarrow += 5
 
     def buysword (self):
@@ -86,10 +77,6 @@ class SHOP(MC):
     def buyfood (self):
         User.money -= self.food
         User.hunger += 30
-
-    def buyarmor (self):
-        User.money -= self.armor
-        User.protection += 16
 
     def buybowandarrow (self):
         User.money -= self.bowandarrow
@@ -192,10 +179,9 @@ while User.living == True:
         print(f"{User.health} health")
         print(f"{User.stamina} stamina")
         print(f"{User.money} gold")
-        print(f"{User.protection} armor")
         print(f"{User.damage} damage")
     elif 'shop' in Userinput:
-        Userinput = input(f"Would you like to purchase a sword for {Shop.sword}, a potion for {Shop.potion}, food for {Shop.food}, armor for {Shop.armor}, or a bow & arrow for {Shop.bowandarrow}? (ex: 'buybowandarrow') Type 'cancel' to rethink your choices...")
+        Userinput = input(f"Would you like to purchase a sword for {Shop.sword}, a potion for {Shop.potion}, food for {Shop.food}, or a bow & arrow for {Shop.bowandarrow}? (ex: 'buybowandarrow') Type 'cancel' to rethink your choices...")
         Userinput = Userinput.lower()
         if 'buysword' in Userinput:
             Shop.buysword()
@@ -203,8 +189,6 @@ while User.living == True:
             Shop.buypotion()
         elif 'buyfood' in Userinput:
             Shop.buyfood()
-        elif 'buyarmor' in Userinput:
-            Shop.buyarmor()
         elif 'buybowandarrow' in Userinput:
             Shop.buybowandarrow()
         if User.money <= 0:
